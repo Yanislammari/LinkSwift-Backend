@@ -63,4 +63,15 @@ public class CompanyController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"Company not found\"}");
         }
     }
+
+    @DeleteMapping("/deleteCompany/{companyId}")
+    public ResponseEntity<String> deleteCompany(@PathVariable("companyId") UUID companyId) {
+        try {
+            companyService.deleteCompany(companyId);
+            return ResponseEntity.ok("{\"message\": \"Company successfully deleted\"}");
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"Company not found\"}");
+        }
+    }
 }
