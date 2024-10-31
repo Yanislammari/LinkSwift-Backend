@@ -50,4 +50,17 @@ public class CompanyController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\": \"Failed to add company.\"}");
         }
     }
+
+    @PutMapping("/editCompany/{companyId}")
+    public ResponseEntity<?> editCompany(@PathVariable("companyId") UUID companyId, @RequestParam("name") String name, @RequestParam("description") String description, @RequestParam("expertiseArea") String expertiseArea, @RequestParam("website") String website, @RequestParam("picture") MultipartFile picture) {
+        try {
+            byte[] imageBytes = picture.getBytes();
+            CompanyDto company = new CompanyDto(null, name, description, expertiseArea, website, imageBytes);
+            CompanyDto setCompany = companyService.setCompany(companyId, company);
+            return ResponseEntity.ok(setCompany);
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"Company not found\"}");
+        }
+    }
 }
