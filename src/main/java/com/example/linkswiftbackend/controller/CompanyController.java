@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,6 +35,19 @@ public class CompanyController {
         }
         catch(Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"Company not found\"}");
+        }
+    }
+
+    @PostMapping("/addCompany")
+    public ResponseEntity<?> addCompany(@RequestParam("name") String name, @RequestParam("description") String description, @RequestParam("expertiseArea") String expertiseArea, @RequestParam("website") String website, @RequestParam("picture") MultipartFile picture) {
+        try {
+            byte[] imageBytes = picture.getBytes();
+            CompanyDto company = new CompanyDto(null, name, description, expertiseArea, website, imageBytes);
+            CompanyDto savedCompany = companyService.addCompany(company);
+            return ResponseEntity.ok(savedCompany);
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\": \"Failed to add company.\"}");
         }
     }
 }
