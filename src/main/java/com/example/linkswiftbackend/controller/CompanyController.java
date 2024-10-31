@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/companies")
@@ -22,6 +23,17 @@ public class CompanyController {
         }
         catch(Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"An error occurred while retrieving companies.\"}");
+        }
+    }
+
+    @GetMapping("/{companyId}")
+    public ResponseEntity<?> getCompanyById(@PathVariable("companyId") UUID companyId) {
+        try {
+            CompanyDto company = companyService.getCompanyById(companyId);
+            return ResponseEntity.ok(company);
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"Company not found\"}");
         }
     }
 }
