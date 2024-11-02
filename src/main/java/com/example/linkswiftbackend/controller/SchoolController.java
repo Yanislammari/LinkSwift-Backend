@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/schools")
@@ -22,6 +23,17 @@ public class SchoolController {
         }
         catch(Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"An error occurred while retrieving schools.\"}");
+        }
+    }
+
+    @GetMapping("/{schoolId}")
+    public ResponseEntity<?> getSchoolById(@PathVariable("schoolId") UUID schoolId) {
+        try {
+            SchoolDto school = schoolService.getSchoolById(schoolId);
+            return ResponseEntity.ok(school);
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"School not found\"}");
         }
     }
 }
