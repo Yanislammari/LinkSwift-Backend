@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,6 +35,19 @@ public class SchoolController {
         }
         catch(Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"School not found\"}");
+        }
+    }
+
+    @PostMapping("/addSchool")
+    public ResponseEntity<?> addSchool(@RequestParam("name") String name, @RequestParam("description") String description, @RequestParam("website") String website, @RequestParam("picture") MultipartFile picture) {
+        try {
+            byte[] imageBytes = picture.getBytes();
+            SchoolDto school = new SchoolDto(null, name, description, website, imageBytes);
+            SchoolDto savedSchool = schoolService.addSchool(school);
+            return ResponseEntity.ok(savedSchool);
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\": \"Failed to add school.\"}");
         }
     }
 }
