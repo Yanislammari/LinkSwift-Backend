@@ -63,4 +63,15 @@ public class SchoolController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"School not found\"}");
         }
     }
+
+    @DeleteMapping("/deleteSchool/{schoolId}")
+    public ResponseEntity<String> deleteSchool(@PathVariable("schoolId") UUID schoolId) {
+        try {
+            schoolService.deleteSchool(schoolId);
+            return ResponseEntity.ok("{\"message\": \"School successfully deleted\"}");
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"School not found\"}");
+        }
+    }
 }
