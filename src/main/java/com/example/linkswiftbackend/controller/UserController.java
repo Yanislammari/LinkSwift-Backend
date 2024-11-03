@@ -61,4 +61,15 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"User not found\"}");
         }
     }
+
+    @DeleteMapping("/deleteUser/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable("userId") UUID userId) {
+        try {
+            userService.deleteUser(userId);
+            return ResponseEntity.ok("{\"message\": \"User successfully deleted\"}");
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"School not found\"}");
+        }
+    }
 }
