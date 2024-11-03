@@ -50,4 +50,17 @@ public class SchoolController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\": \"Failed to add school.\"}");
         }
     }
+
+    @PutMapping("/editSchool/{schoolId}")
+    public ResponseEntity<?> editSchool(@PathVariable("schoolId") UUID schoolId, @RequestParam("name") String name, @RequestParam("description") String description, @RequestParam("website") String website, @RequestParam("picture") MultipartFile picture) {
+        try {
+            byte[] imageBytes = picture.getBytes();
+            SchoolDto school = new SchoolDto(null, name, description, website, imageBytes);
+            SchoolDto setSchool = schoolService.setSchool(schoolId, school);
+            return ResponseEntity.ok(setSchool);
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"School not found\"}");
+        }
+    }
 }
