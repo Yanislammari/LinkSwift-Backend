@@ -67,4 +67,15 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"Post not found\"}");
         }
     }
+
+    @DeleteMapping("deletePost/{postId}")
+    public ResponseEntity<?> deletePost(@PathVariable("postId") UUID postId) {
+        try {
+            postService.deletePost(postId);
+            return ResponseEntity.ok("{\"message\": \"Post successfully deleted\"}");
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"Post not found\"}");
+        }
+    }
 }
