@@ -69,7 +69,7 @@ public class UserController {
             return ResponseEntity.ok("{\"message\": \"User successfully deleted\"}");
         }
         catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"School not found\"}");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"User not found\"}");
         }
     }
 }
