@@ -54,4 +54,17 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\": \"Failed to add post.\"}");
         }
     }
+
+    @PutMapping("/editPost/{postId}")
+    public ResponseEntity<?> editPost(@PathVariable("postId") UUID postId, @RequestParam("content") String content, @RequestParam("categories") List<String> categories, @RequestParam("media") MultipartFile media, @RequestParam("userId") UUID userId) {
+        try {
+            byte[] mediaBytes = media.getBytes();
+            PostDto post = new PostDto(null, content, categories, mediaBytes, userId);
+            PostDto setPost = postService.setPost(postId, post);
+            return ResponseEntity.ok(setPost);
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"Post not found\"}");
+        }
+    }
 }
