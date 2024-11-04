@@ -55,4 +55,17 @@ public class AuthController {
             return ResponseEntity.badRequest().body(jsonResponse);
         }
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody UserDto user) {
+        try {
+            String jwtToken = authService.login(user.getEmail(), user.getPassword());
+            String jsonResponse = String.format("{\"message\": \"Login successful\", \"token\": \"%s\"}", jwtToken);
+            return ResponseEntity.ok(jsonResponse);
+        }
+        catch(Exception e) {
+            String jsonResponse = String.format("{\"message\": \"Error during login: %s\", \"token\": null}", e.getMessage());
+            return ResponseEntity.badRequest().body(jsonResponse);
+        }
+    }
 }
