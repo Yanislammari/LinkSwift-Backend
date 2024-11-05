@@ -58,4 +58,15 @@ public class OfferController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"Offer not found\"}");
         }
     }
+
+    @DeleteMapping("/deleteOffer/{offerId}")
+    public ResponseEntity<?> deleteOffer(@PathVariable("offerId") UUID offerId) {
+        try {
+            offerService.deleteOffer(offerId);
+            return ResponseEntity.ok("{\"message\": \"Offer successfully deleted\"}");
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"Offer not found\"}");
+        }
+    }
 }
