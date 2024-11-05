@@ -47,4 +47,15 @@ public class OfferController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\": \"Failed to add offer.\"}");
         }
     }
+
+    @PutMapping("/editOffer/{offerId}")
+    public ResponseEntity<?> editOffer(@PathVariable("offerId") UUID offerId, OfferDto offer) {
+        try {
+            OfferDto setOffer = offerService.setOffer(offerId, offer);
+            return ResponseEntity.ok(setOffer);
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"Offer not found\"}");
+        }
+    }
 }
