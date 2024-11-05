@@ -36,4 +36,15 @@ public class OfferController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"Offer not found\"}");
         }
     }
+
+    @PostMapping("/addOffer/{companyId}")
+    public ResponseEntity<?> addOffer(@PathVariable("companyId") UUID companyId, OfferDto offer) {
+        try {
+            OfferDto savedOffer = offerService.addOffer(offer, companyId);
+            return ResponseEntity.ok(savedOffer);
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\": \"Failed to add offer.\"}");
+        }
+    }
 }
